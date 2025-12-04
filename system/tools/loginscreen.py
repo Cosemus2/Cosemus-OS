@@ -2,10 +2,22 @@ import curses
 import time
 import os
 import shutil
-import sys
-from system.defaultcmds.clear import clear
-from system.tools.encrypt import encrypt
-from system.tools.decrypt import decrypt
+import importlib.util
+
+path = "system/tools/encryption.py"
+mname = "encryption"
+
+spec = importlib.util.spec_from_file_location(mname, path)
+encryption = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(encryption)
+
+def encrypt(text, s):
+    text = encryption.encrypt(text, s)
+    return text
+def decrypt(text, s):
+    text = encryption.decrypt(text,s)
+    return text
+
 def my_raw_input(stdscr, r, c, prompt_string):
   curses.echo() 
   stdscr.addstr(r, c, prompt_string)
@@ -51,7 +63,6 @@ def main(stdscr):
         other2 = []
         for Key in AllUsernames:
             other.append(decrypt(Key, -7))
-            print(other)
         for Key2 in AllPasswords:
           other2.append(decrypt(Key2, -7))
 
@@ -68,7 +79,7 @@ def main(stdscr):
                 stdscr.refresh()
                 stdscr.getch()
                 curses.endwin()
-                exec(open("system/Users/" + enteredusername + "/cmdline.py").read())
+                os.system("python system/Users/" + enteredusername + "/cmdline.py")
 
             else:
                 stdscr.erase()
@@ -99,7 +110,6 @@ def main(stdscr):
         other2 = []
         for Key in AllUsernames:
             other.append(decrypt(Key, -7))
-            print(other)
         for Key2 in AllPasswords:
           other2.append(decrypt(Key2, -7))
 

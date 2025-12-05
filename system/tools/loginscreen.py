@@ -74,10 +74,7 @@ def main(stdscr):
             if enteredpassword == other2[indextofind]:
                 stdscr.erase()
                 stdscr.refresh()
-                time.sleep(2)
-                stdscr.addstr("Press any key to continue.")
-                stdscr.refresh()
-                stdscr.getch()
+                time.sleep(1)
                 curses.endwin()
                 os.system("python system/Users/" + enteredusername + "/cmdline.py")
 
@@ -86,13 +83,15 @@ def main(stdscr):
                 stdscr.refresh()
                 stdscr.addstr(0, 0, "Incorrect password, please try again.")
                 stdscr.refresh()
-                time.sleep(2)
+                time.sleep(1)
+                os.system("python system/tools/loginscreen.py")
         else:
             stdscr.erase()
             stdscr.refresh()
             stdscr.addstr(0, 0, "Username not found, please sign up or try again.")
             stdscr.refresh()
-            time.sleep(2)
+            time.sleep(1)
+            os.system("python system/tools/loginscreen.py")
 
 
     if selected_option == 1:
@@ -118,7 +117,8 @@ def main(stdscr):
             stdscr.refresh()
             stdscr.addstr(0, 0, "Username already exists, please try again.")
             stdscr.refresh()
-            time.sleep(2)
+            time.sleep(1)
+            os.system("python system/tools/loginscreen.py")
         else:
             stdscr.erase()
             stdscr.refresh()
@@ -137,4 +137,5 @@ def main(stdscr):
             open("system/Users/" + newusername + "/cmdline.py", "w")
             shutil.copyfile("system/cmdlinetemplate.py", "system/Users/" + newusername + 
             "/cmdline.py")
+            os.system("python system/tools/loginscreen.py")
 curses.wrapper(main)

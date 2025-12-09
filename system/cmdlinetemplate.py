@@ -13,7 +13,7 @@ from nltk.stem import WordNetLemmatizer
 w = []
 
 # reading text file
-with open('final.txt', 'r', encoding="utf8") as f:
+with open(str(Path(__file__).parent) + "/final.txt", 'r', encoding="utf8") as f:
     file_name_data = f.read()
     file_name_data = file_name_data.lower()
     w = re.findall('\w+', file_name_data)

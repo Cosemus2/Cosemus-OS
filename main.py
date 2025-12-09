@@ -1,4 +1,3 @@
-#a
 from system.tools.loadanim import load
 from system.defaultcmds.clear import clear
 import time

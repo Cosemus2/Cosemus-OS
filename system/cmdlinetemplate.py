@@ -5,7 +5,7 @@ from simple_chalk import green, blue, red, yellow
 
 def clear():
   os.system("cls" if os.name == "nt" else "clear")
-
+#test
 def load(text):
     print(text + ".")
     time.sleep(0.5)

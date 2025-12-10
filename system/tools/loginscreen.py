@@ -3,6 +3,7 @@ import time
 import os
 import shutil
 import importlib.util
+import sys
 
 path = "system/tools/encryption.py"
 mname = "encryption"
@@ -137,5 +138,7 @@ def main(stdscr):
             open("system/Users/" + newusername + "/cmdline.py", "w")
             shutil.copyfile("system/cmdlinetemplate.py", "system/Users/" + newusername + 
             "/cmdline.py")
-            os.system("python system/tools/loginscreen.py")
+            shutil.copyfile("system/final.txt", "system/Users/" + newusername + 
+            "/final.txt")
+            sys.exit()
 curses.wrapper(main)

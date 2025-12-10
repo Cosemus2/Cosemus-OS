@@ -4,143 +4,109 @@ from pathlib import Path
 from simple_chalk import green, blue, red, yellow
 
 import nltk
-nltk.download('all')
 import re
 import pattern
 from nltk.stem import WordNetLemmatizer
 
-# words
 w = []
 
-# reading text file
 with open(str(Path(__file__).parent) + "/final.txt", 'r', encoding="utf8") as f:
     file_name_data = f.read()
     file_name_data = file_name_data.lower()
     w = re.findall('\w+', file_name_data)
-
-# vocabulary
+#vocab
 main_set = set(w)
 
 def counting_words(words):
-	word_count = {}
-	for word in words:
-		if word in word_count:
-			word_count[word] += 1
-		else:
-			word_count[word] = 1
-	return word_count
+    word_count = {}
+    for word in words:
+        if word in word_count:
+            word_count[word] += 1
+        else:
+            word_count[word] = 1
+    return word_count
 def prob_cal(word_count_dict):
-	probs = {}
-	m = sum(word_count_dict.values())
-	for key in word_count_dict.keys():
-		probs[key] = word_count_dict[key] / m
-	return probs
+    probs = {}
+    m = sum(word_count_dict.values())
+    for key in word_count_dict.keys():
+        probs[key] = word_count_dict[key] / m
+    return probs
 def LemmWord(word):
-	return list(lexeme(wd) for wd in word.split())[0]
+    return list(lexeme(wd) for wd in word.split())[0]
 def DeleteLetter(word):
-	delete_list = []
-	split_list = []
+    delete_list = []
+    split_list = []
+    for i in range(len(word)):
+        split_list.append((word[0:i], word[i:]))
 
-	# considering letters 0 to i then i to -1
-	# Leaving the ith letter
-	for i in range(len(word)):
-		split_list.append((word[0:i], word[i:]))
-
-	for a, b in split_list:
-		delete_list.append(a + b[1:])
-	return delete_list
+    for a, b in split_list:
+        delete_list.append(a + b[1:])
+    return delete_list
 def Switch_(word):
-	split_list = []
-	switch_l = []
+    split_list = []
+    switch_l = []
 
-	#creating pair of the words(and breaking them)
-	for i in range(len(word)):
-		split_list.append((word[0:i], word[i:]))
+    for i in range(len(word)):
+        split_list.append((word[0:i], word[i:]))
 
-	#Printint the first word (i.e. a)
-	#then replacing the first and second character of b
-	switch_l = [a + b[1] + b[0] + b[2:] for a, b in split_list if len(b) >= 2]
-	return switch_l
+    switch_l = [a + b[1] + b[0] + b[2:] for a, b in split_list if len(b) >= 2]
+    return switch_l
 def Replace_(word):
-	split_l = []
-	replace_list = []
+    split_l = []
+    replace_list = []
 
-	# Replacing the letter one-by-one from the list of alphs
-	for i in range(len(word)):
-		split_l.append((word[0:i], word[i:]))
-	alphs = 'abcdefghijklmnopqrstuvwxyz'
-	replace_list = [a + l + (b[1:] if len(b) > 1 else '')
-					for a, b in split_l if b for l in alphs]
-	return replace_list
+    for i in range(len(word)):
+        split_l.append((word[0:i], word[i:]))
+    alphs = 'abcdefghijklmnopqrstuvwxyz'
+    replace_list = [a + l + (b[1:] if len(b) > 1 else '')
+                    for a, b in split_l if b for l in alphs]
+    return replace_list
 def insert_(word):
-	split_l = []
-	insert_list = []
+    split_l = []
+    insert_list = []
 
-	# Making pairs of the split words
-	for i in range(len(word) + 1):
-		split_l.append((word[0:i], word[i:]))
+    for i in range(len(word) + 1):
+        split_l.append((word[0:i], word[i:]))
 
-	# Storing new words in a list
-	# But one new character at each location
-	alphs = 'abcdefghijklmnopqrstuvwxyz'
-	insert_list = [a + l + b for a, b in split_l for l in alphs]
-	return insert_list
+    alphs = 'abcdefghijklmnopqrstuvwxyz'
+    insert_list = [a + l + b for a, b in split_l for l in alphs]
+    return insert_list
 def colab_1(word, allow_switches=True):
-	colab_1 = set()
-	colab_1.update(DeleteLetter(word))
-	if allow_switches:
-		colab_1.update(Switch_(word))
-	colab_1.update(Replace_(word))
-	colab_1.update(insert_(word))
-	return colab_1
+    colab_1 = set()
+    colab_1.update(DeleteLetter(word))
+    if allow_switches:
+        colab_1.update(Switch_(word))
+    colab_1.update(Replace_(word))
+    colab_1.update(insert_(word))
+    return colab_1
 
-# collecting words using by allowing switches
 def colab_2(word, allow_switches=True):
-	colab_2 = set()
-	edit_one = colab_1(word, allow_switches=allow_switches)
-	for w in edit_one:
-		if w:
-			edit_two = colab_1(w, allow_switches=allow_switches)
-			colab_2.update(edit_two)
-	return colab_2
+    colab_2 = set()
+    edit_one = colab_1(word, allow_switches=allow_switches)
+    for w in edit_one:
+        if w:
+            edit_two = colab_1(w, allow_switches=allow_switches)
+            colab_2.update(edit_two)
+    return colab_2
 def get_corrections(word, probs, vocab, n=2):
-	suggested_word = []
-	best_suggestion = []
-	suggested_word = list(
-		(word in vocab and word) or colab_1(word).intersection(vocab)
-		or colab_2(word).intersection(
-			vocab))
+    suggested_word = []
+    best_suggestion = []
+    suggested_word = list(
+        (word in vocab and word) or colab_1(word).intersection(vocab)
+        or colab_2(word).intersection(
+            vocab))
 
-	# finding out the words with high frequencies
-	best_suggestion = [[s, probs[s]] for s in list(reversed(suggested_word))]
-	return best_suggestion
-my_word = input("Enter any word:")
+    best_suggestion = [[s, probs[s]] for s in list(reversed(suggested_word))]
+    return best_suggestion
 
-# Counting word function
-word_count = counting_words(main_set)
-
-# Function to calculate word probabilities
 def probab_cal(word_count):
     total_words = sum(word_count.values())
     probs = {word: count/total_words for word, count in word_count.items()}
     return probs
 
-# Calculating probability
-probs = probab_cal(word_count)
-
-# only storing correct words
-tmp_corrections = get_corrections(my_word, probs, main_set, 2)
-for i, word_prob in enumerate(tmp_corrections):
-	if(i < 3):
-		print(word_prob[0])
-	else:
-		break
-
-
-
 def clear():
   os.system("cls" if os.name == "nt" else "clear")
-#test
+
 def load(text):
     print(text + ".")
     time.sleep(0.5)
@@ -169,7 +135,29 @@ print("Welcome to CosOs, " + user + "!")
 print("-------------------------------------")
 time.sleep(4)
 while run:
-    clear()
     command = input(green("\n" + user + "@cosos1.0.0") + blue(" ~ $ "))
     if command == "help":
-       print("tested")
+       print("helped")
+       continue
+    elif command.startswith("mkdir "):
+      w = 2
+      dirname = command.split(" ")[w - 1]
+      os.mkdir("system/Users/" + user + "/" + dirname)
+      continue
+    elif command == "clear":
+      clear()
+      continue
+    else:
+        word_count = counting_words(main_set)
+        probs = probab_cal(word_count)
+        tmp_corrections = get_corrections(command, probs, main_set, 2)
+        for i, word_prob in enumerate(tmp_corrections):
+            if(i < 1):
+                word = word_prob[0]
+            else:
+                break
+        print('Command not found. Did you mean: "' + word + '"?')
+        time.sleep(1)
+        continue
+
+

@@ -1,5 +1,3 @@
-test
-tested
-testing
-tester
-tests
+help
+clear
+mkdir

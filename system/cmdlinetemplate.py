@@ -1,22 +1,54 @@
+# Necessary Imports
 import os
 import time
 import random
 from pathlib import Path
 from simple_chalk import green, blue, red, yellow
 
-#word prediction
+# Word Correction Imports
 import nltk
 import re
 import pattern
 from nltk.stem import WordNetLemmatizer
 
+# Time and Date Setup
 from datetime import datetime
-usertime = str(datetime.now())[11:16]
+infotime = str(datetime.now())[11:16]
+starttime = time.time()
 date = str(datetime.now())[5:10]
+uptime = 0  # in minutes
+
+#Information
+path = Path(__file__)
+user = os.path.basename(os.path.dirname(path))
+
+# Normal Messages
+messages = [
+    f"Welcome to CosOs, {user}!",
+    f"Current time is {infotime}.",
+    "Type 'help' for a list of commands.",
+    "Remember to take breaks and stretch!",
+    "Did you know? You can create directories with 'mkdir <dirname>'.",
+    "System initialization complete.",
+    "Access granted.",
+    "All systems operational.",
+    "Ready when you are.",
+    "Standing by for your command.",
+    "Welcome! System uptime: 0 minutes. Let’s change that.",
+    "Hello there! Did you know you can clear the screen with the 'clear' command?",
+    "Greetings! Remember, you can always type 'help' if you need assistance.",
+    "Salutations! Fun fact: The first computer bug was an actual moth found in a computer.",
+    "Hi! Pro tip: Use 'mkdir <dirname>' to create a new directory.",
+    "Hey! Did you know? The first 1GB hard drive was announced in 1980, weighed over 500 pounds, and cost $40,000.",
+    "Welcome aboard!",
+]
+# Holiday Messages
 holidays = [["Christmas Eve", "12-24"], ["Christmas", "12-25"], ["Hallow's Eve", "10-30"], ["Halloween", "10-31"], ["New Year's Eve", "12-31"], ["New Year's Day", "01-01"], ["Valentine's Day", "02-14"]]
 for sublist in holidays:
     if date in sublist:
         holiday = sublist[0]
+    else:
+        holiday = None
 
 try:
     if holiday == "Christmas Eve":
@@ -30,7 +62,7 @@ try:
         ]
 
     elif holiday == "Christmas":
-        hMessage = [
+        hMessages = [
             "Merry Christmas, you magnificent creature!",
             "Did the gift you wanted actually show up?",
             "Time to eat until movement becomes optional.",
@@ -39,7 +71,7 @@ try:
         ]
 
     elif holiday == "Hallow's Eve":
-        hMessage = [
+        hMessages = [
             "The night is thinner than usual… listen closely.",
             "Something just moved behind you. Probably.",
             "Candy is bait. Don’t fall for it.",
@@ -48,7 +80,7 @@ try:
         ]
 
     elif holiday == "Halloween":
-        hMessage = [
+        hMessages = [
             "BOO! …Too early? Too late?",
             "Monsters get today off, so I’m filling in.",
             "Pumpkins are judging you silently.",
@@ -56,7 +88,7 @@ try:
         ]
 
     elif holiday == "New Year's Eve":
-        hMessage = [
+        hMessages = [
             "The countdown to questionable resolutions begins.",
             "Last chance to pretend you'll change tomorrow.",
             "Hope you're ready to shout numbers loudly!",
@@ -64,7 +96,7 @@ try:
         ]
 
     elif holiday == "New Year's Day":
-        hMessage = [
+        hMessages = [
             "Behold: a perfectly fresh day with absolutely no mistakes yet.",
             "Happy New Year! Time to accidentally write the wrong date.",
             "This year is going to be legendary. Probably.",
@@ -72,7 +104,7 @@ try:
         ]
 
     elif holiday == "Valentine's Day":
-        hMessage = [
+        hMessages = [
             "Love is in the air… or maybe that’s just scented candles.",
             "So… who’s the lucky human?",
             "May your chocolates be high-quality and your dates punctual.",
@@ -83,7 +115,10 @@ except:
     None
 
 try:
-    specialMessage= random.choice(hMessages)
+    if holiday != None:
+        message = random.choice(hMessages)
+    else:
+        message = random.choice(messages)
 except:
     None
 
@@ -195,8 +230,6 @@ def load(text):
     print(text + "...")
     time.sleep(2)
     clear()
-path = Path(__file__)
-user = os.path.basename(os.path.dirname(path))
 run = True
 clear()
 print("""   _____           ____   _____ 
@@ -210,23 +243,28 @@ print("""   _____           ____   _____
 time.sleep(1)
 clear()
 print("-------------------------------------")
-print("Welcome to CosOs, " + user + "!")
+print(message)
 print("-------------------------------------")
-print(os.getpwd())
 time.sleep(1)
+
+# Command Line Loop
 while run:
     command = input(green("\n" + user + "@cosos1.0.0") + blue(" ~ $ "))
+    # Command Handling
     if command == "help":
        print("helped")
        continue
     elif command.startswith("mkdir "):
       w = 2
       dirname = command.split(" ")[w - 1]
-      os.mkdir("system/Users/" + user + "/" + dirname)
+      os.mkdir(__file__ + "/../" + dirname)
       continue
     elif command == "clear":
       clear()
       continue
+    elif command == "uptime":
+        print("Uptime: " + str(round(time.time() - starttime) // 60) + " minutes, " + str(round(time.time() - starttime)) + " seconds.")
+        continue
     else:
         word_count = counting_words(main_set)
         probs = probab_cal(word_count)

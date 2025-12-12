@@ -3,7 +3,6 @@ from system.defaultcmds.clear import clear
 import time
 import os
 import nltk
-
 print("Please wait while we get stuff ready.")
 time.sleep(2)
 nltk.download('all')

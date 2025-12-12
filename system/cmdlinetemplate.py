@@ -1,12 +1,91 @@
 import os
 import time
+import random
 from pathlib import Path
 from simple_chalk import green, blue, red, yellow
 
+#word prediction
 import nltk
 import re
 import pattern
 from nltk.stem import WordNetLemmatizer
+
+from datetime import datetime
+usertime = str(datetime.now())[11:16]
+date = str(datetime.now())[5:10]
+holidays = [["Christmas Eve", "12-24"], ["Christmas", "12-25"], ["Hallow's Eve", "10-30"], ["Halloween", "10-31"], ["New Year's Eve", "12-31"], ["New Year's Day", "01-01"], ["Valentine's Day", "02-14"]]
+for sublist in holidays:
+    if date in sublist:
+        holiday = sublist[0]
+
+try:
+    if holiday == "Christmas Eve":
+        hMessages = [
+            "The stockings look suspiciously full tonight...",
+            "Hope you double-checked the chimney clearance.",
+            "Santa is doing his pre-flight stretches right now.",
+            "Only hours left until wrapping paper chaos.",
+            "The calm before the *jingling* storm.",
+            "Don't fall asleep… he’s watching."
+        ]
+
+    elif holiday == "Christmas":
+        hMessage = [
+            "Merry Christmas, you magnificent creature!",
+            "Did the gift you wanted actually show up?",
+            "Time to eat until movement becomes optional.",
+            "May your batteries be included and your assembly be minimal.",
+            "The tree looks proud of you today."
+        ]
+
+    elif holiday == "Hallow's Eve":
+        hMessage = [
+            "The night is thinner than usual… listen closely.",
+            "Something just moved behind you. Probably.",
+            "Candy is bait. Don’t fall for it.",
+            "Whispers travel farther tonight.",
+            "If a shadow steps out of line… don’t mention it."
+        ]
+
+    elif holiday == "Halloween":
+        hMessage = [
+            "BOO! …Too early? Too late?",
+            "Monsters get today off, so I’m filling in.",
+            "Pumpkins are judging you silently.",
+            "Hope your costume is scarier than your Wi-Fi connection."
+        ]
+
+    elif holiday == "New Year's Eve":
+        hMessage = [
+            "The countdown to questionable resolutions begins.",
+            "Last chance to pretend you'll change tomorrow.",
+            "Hope you're ready to shout numbers loudly!",
+            "The clock is plotting something."
+        ]
+
+    elif holiday == "New Year's Day":
+        hMessage = [
+            "Behold: a perfectly fresh day with absolutely no mistakes yet.",
+            "Happy New Year! Time to accidentally write the wrong date.",
+            "This year is going to be legendary. Probably.",
+            "You survived last year—impressive."
+        ]
+
+    elif holiday == "Valentine's Day":
+        hMessage = [
+            "Love is in the air… or maybe that’s just scented candles.",
+            "So… who’s the lucky human?",
+            "May your chocolates be high-quality and your dates punctual.",
+            "It’s the perfect day to panic-buy flowers."
+        ]
+
+except:
+    None
+
+try:
+    specialMessage= random.choice(hMessages)
+except:
+    None
 
 w = []
 
@@ -14,7 +93,6 @@ with open(str(Path(__file__).parent) + "/final.txt", 'r', encoding="utf8") as f:
     file_name_data = f.read()
     file_name_data = file_name_data.lower()
     w = re.findall('\w+', file_name_data)
-#vocab
 main_set = set(w)
 
 def counting_words(words):
@@ -133,7 +211,7 @@ clear()
 print("-------------------------------------")
 print("Welcome to CosOs, " + user + "!")
 print("-------------------------------------")
-time.sleep(4)
+time.sleep(1)
 while run:
     command = input(green("\n" + user + "@cosos1.0.0") + blue(" ~ $ "))
     if command == "help":
@@ -156,8 +234,11 @@ while run:
                 word = word_prob[0]
             else:
                 break
-        print('Command not found. Did you mean: "' + word + '"?')
+        try:
+            word
+        except NameError:
+            print("Command not found and no similiar command found.")
+        else:
+            print('Command not found. Did you mean: "' + word + '"?')
         time.sleep(1)
         continue
-
-

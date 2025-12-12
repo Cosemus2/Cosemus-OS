@@ -1,3 +1,3 @@
 from datetime import datetime
-Date = str(datetime.now())[11:16]
+time = str(datetime.now())[11:16]
 print(Date)

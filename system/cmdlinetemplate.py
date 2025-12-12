@@ -41,7 +41,9 @@ messages = [
     "Hi! Pro tip: Use 'mkdir <dirname>' to create a new directory.",
     "Hey! Did you know? The first 1GB hard drive was announced in 1980, weighed over 500 pounds, and cost $40,000.",
     "Welcome aboard!",
+    "You can use the 'uptime' command to check how long the system has been running."
 ]
+
 # Holiday Messages
 holidays = [["Christmas Eve", "12-24"], ["Christmas", "12-25"], ["Hallow's Eve", "10-30"], ["Halloween", "10-31"], ["New Year's Eve", "12-31"], ["New Year's Day", "01-01"], ["Valentine's Day", "02-14"]]
 for sublist in holidays:
@@ -122,8 +124,8 @@ try:
 except:
     None
 
+# Word Correction Setup
 w = []
-
 with open(str(Path(__file__).parent) + "/final.txt", 'r', encoding="utf8") as f:
     file_name_data = f.read()
     file_name_data = file_name_data.lower()
@@ -217,6 +219,7 @@ def probab_cal(word_count):
     probs = {word: count/total_words for word, count in word_count.items()}
     return probs
 
+# Function section
 def clear():
   os.system("cls" if os.name == "nt" else "clear")
 
@@ -230,6 +233,8 @@ def load(text):
     print(text + "...")
     time.sleep(2)
     clear()
+
+# Main Program
 run = True
 clear()
 print("""   _____           ____   _____ 

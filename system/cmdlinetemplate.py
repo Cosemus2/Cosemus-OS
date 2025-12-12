@@ -198,6 +198,7 @@ def load(text):
 path = Path(__file__)
 user = os.path.basename(os.path.dirname(path))
 run = True
+clear()
 print("""   _____           ____   _____ 
   / ____|         / __ \ / ____|
  | |     ___  ___| |  | | (___  
@@ -211,6 +212,7 @@ clear()
 print("-------------------------------------")
 print("Welcome to CosOs, " + user + "!")
 print("-------------------------------------")
+print(os.getpwd())
 time.sleep(1)
 while run:
     command = input(green("\n" + user + "@cosos1.0.0") + blue(" ~ $ "))

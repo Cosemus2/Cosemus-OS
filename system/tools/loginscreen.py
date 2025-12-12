@@ -4,6 +4,7 @@ import os
 import shutil
 import importlib.util
 import sys
+import subprocess
 
 path = "system/tools/encryption.py"
 mname = "encryption"
@@ -140,5 +141,6 @@ def main(stdscr):
             "/cmdline.py")
             shutil.copyfile("system/final.txt", "system/Users/" + newusername + 
             "/final.txt")
+            subprocess.call([sys.executable] + sys.argv)
             sys.exit()
 curses.wrapper(main)

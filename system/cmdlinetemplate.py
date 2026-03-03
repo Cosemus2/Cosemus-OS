@@ -270,6 +270,8 @@ while run:
     elif command == "uptime":
         print("Uptime: " + str(round(time.time() - starttime) // 60) + " minutes, " + str(round(time.time() - starttime)) + " seconds.")
         continue
+    elif command == "netscan":
+        os.system("python ../../defaultcmds/netscan.py")
     else:
         word_count = counting_words(main_set)
         probs = probab_cal(word_count)

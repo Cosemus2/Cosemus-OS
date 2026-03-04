@@ -8,7 +8,7 @@ time.sleep(2)
 nltk.download('all')
 clear()
 for i in range(1):
-  load("Booting CosOs - 1.0.0")e
+  load("Booting CosOs - 1.0.0")
 time.sleep(1)
 clear()
 os.system("python system/tools/loginscreen.py")

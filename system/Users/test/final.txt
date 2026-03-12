@@ -1,0 +1,5 @@
+help
+clear
+mkdir
+uptime
+netscan

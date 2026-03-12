@@ -4,6 +4,8 @@ import time
 import random
 from pathlib import Path
 from simple_chalk import green, blue, red, yellow
+import sublist3r 
+
 
 # Word Correction Imports
 import nltk
@@ -272,6 +274,8 @@ while run:
         continue
     elif command == "netscan":
         os.system("python ../../defaultcmds/netscan.py")
+    elif command == "sublist":
+        subdomains = sublist3r.main('yahoo.com', 40, 'yahoo_subdomains.txt', ports= None, silent=False, verbose= False, enable_bruteforce= True,  engines=None)
     else:
         word_count = counting_words(main_set)
         probs = probab_cal(word_count)

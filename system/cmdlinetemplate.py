@@ -5,6 +5,7 @@ import random
 from pathlib import Path
 from simple_chalk import green, blue, red, yellow
 import sublist3r 
+import json
 
 
 # Word Correction Imports
@@ -128,7 +129,7 @@ except:
 
 # Word Correction Setup
 w = []
-with open(str(Path(__file__).parent) + "/final.txt", 'r', encoding="utf8") as f:
+with open(str(Path(__file__).parent) + "/cmdlist.txt", 'r', encoding="utf8") as f:
     file_name_data = f.read()
     file_name_data = file_name_data.lower()
     w = re.findall('\w+', file_name_data)
@@ -258,9 +259,19 @@ time.sleep(1)
 while run:
     command = input(green("\n" + user + "@cosos1.0.0") + blue(" ~ $ "))
     # Command Handling
-    if command == "help":
-       print("helped")
-       continue
+    if command.startswith("help"):
+        w = 2
+        cmd = command.split(" ")[w - 1]
+        with open(str(Path(__file__).parent) + "/help.json", 'r', encoding="utf8") as f:
+            data = json.load(f)
+            if cmd in data:
+                command_info = data[cmd]
+                print(f"Command: {cmd}")
+                for key, value in command_info.items():
+                    print(f"{key}: {value}")
+            else:
+                print("Command not found.")
+        continue
     elif command.startswith("mkdir "):
       w = 2
       dirname = command.split(" ")[w - 1]
@@ -273,9 +284,12 @@ while run:
         print("Uptime: " + str(round(time.time() - starttime) // 60) + " minutes, " + str(round(time.time() - starttime)) + " seconds.")
         continue
     elif command == "netscan":
-        os.system("python ../../defaultcmds/netscan.py")
-    elif command == "sublist":
-        subdomains = sublist3r.main('yahoo.com', 40, 'yahoo_subdomains.txt', ports= None, silent=False, verbose= False, enable_bruteforce= True,  engines=None)
+        base = Path(__file__).parent
+        script = base / "defaultcmds" / "netscan.py"
+        os.system(f"python {script}")
+    elif command.startswith("dnscan"):
+        args = command[len("dnscan"):].strip()
+        os.system(f"python3 dnscan.py {args}")
     else:
         word_count = counting_words(main_set)
         probs = probab_cal(word_count)

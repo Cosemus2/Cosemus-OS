@@ -139,8 +139,10 @@ def main(stdscr):
             open("system/Users/" + newusername + "/cmdline.py", "w")
             shutil.copyfile("system/cmdlinetemplate.py", "system/Users/" + newusername + 
             "/cmdline.py")
-            shutil.copyfile("system/final.txt", "system/Users/" + newusername + 
-            "/final.txt")
+            shutil.copyfile("system/help.json", "system/Users/" + newusername + 
+            "/help.json")
+            shutil.copyfile("system/cmdlist.txt", "system/Users/" + newusername + 
+            "/cmdlist.txt")
             subprocess.call([sys.executable] + sys.argv)
             sys.exit()
 curses.wrapper(main)

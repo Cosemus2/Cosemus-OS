@@ -1,0 +1,47 @@
+{
+    "help": {
+        "description": "View a list of commands and their descriptions. (duh)",
+        "usage": "help [command]",
+        "examples": [
+            "help",
+            "help netscan"
+        ]
+    },
+    "clear": {
+        "description": "Clear the terminal screen.",
+        "usage": "clear",
+        "examples": [
+            "clear"
+        ]
+    },
+    "mkdir": {
+        "description": "Create a new directory nested inside the current directory.",
+        "usage": "mkdir [directory_name]",
+        "examples": [
+            "mkdir my_folder"
+        ]
+    },
+    "uptime": {
+        "description": "View how long the system has been running for.",
+        "usage": "uptime",
+        "examples": [
+            "uptime"
+        ]
+    },
+    "netscan": {
+        "description": "Scan the local network for devices and their IP addresses.",
+        "usage": "netscan",
+        "examples": [
+            "netscan"
+        ]
+    },
+    "dnscan": {
+        "description": "Scan the entered domain for subdomains and their IP addresses.",
+        "usage": "dnscan\n",
+        "parameters": "-w --wordlist <wordlist>                  Wordlist of subdomains to use\n-t --threads <threadcount>                Threads (1 - 32), default 8\n-6 --ipv6                                 Scan for IPv6 records (AAAA)\n-z --zonetransfer                         Perform zone transfer and exit\n-r --recursive                            Recursively scan subdomains\n   --recurse-wildcards                    Recursively scan wildcards (slow)\n\n-m --maxdepth                             Maximum levels to scan recursively\n-a --alterations                          Scan for alterations of subdomains (slow)\n-R --resolver <resolver>                  Use the specified resolver instead of the system default\n-L --resolver-list <file>                 Read list of resolvers from a file\n-T --tld                                  Scan for the domain in all TLDs\n-o --output <filename>                    Output to a text file\n-i --output-ips <filename>                Output discovered IP addresses to a text file\n-n --nocheck                              Don't check nameservers before scanning. Useful in airgapped networks\n-q --quick                                Only perform the zone transfer and subdomain scans. Suppresses most file output with -o\n-N --no-ip                                Don't print IP addresses in the output\n-v --verbose                              Verbose output\n-h --help                                 Display help text",
+        "examples": [
+            "dnscan -d google.com"
+        ]
+    }
+
+}

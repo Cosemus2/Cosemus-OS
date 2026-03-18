@@ -3,3 +3,4 @@ clear
 mkdir
 uptime
 netscan
+dnscan
